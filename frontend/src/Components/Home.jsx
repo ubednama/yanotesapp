@@ -1,6 +1,5 @@
 import React from 'react'
-import Form from './Home/Form'
-
+import AddNote from './Home/AddNote';
 import Notes from './Home/Notes';
 
 const Home = () => {
@@ -8,7 +7,7 @@ const Home = () => {
   return (
     <div>
       <h1>Add a Note</h1>
-        <Form />
+        <AddNote />
       <h1>Your Notes</h1>
         <Notes />
     </div>

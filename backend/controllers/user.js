@@ -30,8 +30,11 @@ export const Register = async (req, res) => {
         })
 
         const jwtData = jwt.sign({id: newUser._id}, process.env.JWT_SECRET)
-        console.log(jwtData)
 
+        res.cookie('jwtData', jwtData, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 15
+        })
         return res.status(201).json({
             message: "Account created successfully",
             success: true,
@@ -52,7 +55,7 @@ export const Register = async (req, res) => {
     }
 }
 
-export const Logiin = async (req, res) => {
+export const Login = async (req, res) => {
     try {
         const {username , password} = req.body;
         if (!username || !password) {
@@ -85,10 +88,14 @@ export const Logiin = async (req, res) => {
         }
 
         const authToken = jwt.sign(payload, process.env.JWT_SECRET)
-        res.json(authToken)
+        res.cookie('jwtData', authToken, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 15
+        })
+        res.json({success: true, authToken})
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Internal Server Error")
+        res.status(500).json({success: false, error: "Internal Server Error"});
     }
 }

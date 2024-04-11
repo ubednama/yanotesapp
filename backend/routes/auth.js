@@ -1,11 +1,12 @@
 import express from 'express'
 import User from '../models/User.js';
 import { body, validationResult } from 'express-validator';
-import { Logiin, Register } from '../controllers/user.js';
+import { Login, Register } from '../controllers/user.js';
 import fetchUser from '../middleware/fetchUser.js';
 const router = express.Router();
 
 
+let success = false;
 // Create user using POST
 router.post("/signup",[
             body('fullName', 'Give your Full name').isLength({min: 3}),
@@ -35,7 +36,7 @@ router.post('/login', [
             return res.status(400).json({errors: errors.array()})
         }
         next()
-    }, Logiin)
+    }, Login)
 
 
 //get user details
@@ -44,10 +45,11 @@ router.post('/getUser', fetchUser, async (req, res) =>{
         const {id} = req.user.id;
         const user = await User.findOne({id}).select("-password")
         console.log("router",user)
-        res.send(user)
+        success = true
+        res.send({success, user})
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Internal Server Error")
+        res.status(500).json({success, error: "Internal Server Error"});
     }
 })
 
