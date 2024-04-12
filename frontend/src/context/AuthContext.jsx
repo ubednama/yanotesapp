@@ -7,7 +7,7 @@ export const useAuthContext = () => {
 }
 
 export const AuthProvider = ({children}) =>{
-    const [authUser, setAuthUser ] = useState(JSON.parse(localStorage.getItem('jwtToken')) || null)
+    const [authUser, setAuthUser ] = useState(localStorage.getItem('jwtToken') || null)
     return <AuthContext.Provider value={{authUser, setAuthUser}} >
             {children}
         </AuthContext.Provider >

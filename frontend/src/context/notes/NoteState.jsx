@@ -6,17 +6,19 @@ import BASE_URL from "../../Components/Utils/constant";
 
 const NoteState = (props)=> {
       const [notes, setNotes] = useState([])
+      const authToken = localStorage.getItem("jwtToken")
 
       const getAllNotes = async()=>{
         const response = await fetch(`${BASE_URL}/`, {
           method: "GET",
           headers: {
             'Content-Type' : 'application/json',
-            'auth-token' : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxNWEzMzFjMmEwMTc0ZmMwMWIzNjg0In0sImlhdCI6MTcxMjY5NDEyM30.51MCMT2685-lM_PcB8cyeWvoi_4hjDJNp4UOVhzyWoc"
+            'auth-token' : authToken
           }
         })
         const json = await response.json()
         console.log("from getAllNotes ",json)
+        // console.log(authToken, typeof authToken)
         setNotes(json.notes)
       }
 
@@ -31,7 +33,7 @@ const NoteState = (props)=> {
           method: "POST",
           headers: {
             'Content-Type' : 'application/json',
-            'auth-token' : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxNWEzMzFjMmEwMTc0ZmMwMWIzNjg0In0sImlhdCI6MTcxMjY5NDEyM30.51MCMT2685-lM_PcB8cyeWvoi_4hjDJNp4UOVhzyWoc"
+            'auth-token' : authToken
           },
           body: JSON.stringify(data)
         })
@@ -51,7 +53,7 @@ const NoteState = (props)=> {
           method: "DELETE",
           headers: {
             'Content-Type' : 'application/json',
-            'auth-token' : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxNWEzMzFjMmEwMTc0ZmMwMWIzNjg0In0sImlhdCI6MTcxMjY5NDEyM30.51MCMT2685-lM_PcB8cyeWvoi_4hjDJNp4UOVhzyWoc"
+            'auth-token' : authToken
           }
         })
         const json = await response.json()
@@ -73,7 +75,7 @@ const NoteState = (props)=> {
           method: "PUT",
           headers: {
             'Content-Type' : 'application/json',
-            'auth-token' : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxNWEzMzFjMmEwMTc0ZmMwMWIzNjg0In0sImlhdCI6MTcxMjY5NDEyM30.51MCMT2685-lM_PcB8cyeWvoi_4hjDJNp4UOVhzyWoc"
+            'auth-token' : authToken
           },
           body: JSON.stringify(data)
         })

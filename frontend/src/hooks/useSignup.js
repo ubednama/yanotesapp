@@ -20,12 +20,12 @@ const useSingup = () => {
             console.log(response)
             const json = await response.json()
             console.log(json)
-            if (!response.ok) throw new Error('Failed to authenticate')
+            if (!response.ok) throw new Error(json.message || 'Failed to authenticate')
             if(json.error){
                 throw new Error(data.error)         //this throws error that we catch below
             }
             console.log(json)
-            localStorage.setItem("jwtToken", JSON.stringify(json))
+            localStorage.setItem("jwtToken", json.authToken)
 
             // const authToken = json.authToken;
             setAuthUser(json);
@@ -35,6 +35,7 @@ const useSingup = () => {
 
         } catch (error) { 
             toast.error("Error in authentication")
+            toast.error(error.message)
             console.error("Error in authentication", error) }
         finally { setLoading(false) }
     }
