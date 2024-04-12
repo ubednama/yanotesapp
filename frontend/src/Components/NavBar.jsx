@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 
 const NavBar = () => {
-  const { authUser,setAuthUser} = useAuthContext()
+  const { authUser,setAuthUser} = useAuthContext();
+  const navigate = useNavigate();
 
   const logoutUser = () => {
     localStorage.removeItem("jwtToken")
     setAuthUser(null)
     console.log("from logout", setAuthUser)
+  }
+
+  const updatePath = () => {
+  location.pathname==="/login" ? navigate("/signup") : navigate("/login")
   }
 
   return (
@@ -55,6 +60,11 @@ const NavBar = () => {
               {authUser !== null && (
                 <button className="btn me-2" onClick={logoutUser}>
               <span className="fa-solid fa-right-from-bracket"></span>
+              </button>
+              )}
+              {authUser === null && (
+                <button className="btn me-2 btn-primary" style={{width: "8rem"}} onClick={updatePath}>
+                  {location.pathname==="/login" ? "Signup" : "Login"}
               </button>
               )}
             </form>
